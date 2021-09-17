@@ -7,7 +7,7 @@ const api = axios.create({
 interface Product { 
     _id?: string;
     name: string;
-    value: number;
+    price: number;
     stock: number;
 } 
 
