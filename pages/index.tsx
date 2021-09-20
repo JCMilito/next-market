@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import type { NextPage } from 'next';
 import Router from 'next/router';
 import Head from 'next/head';
@@ -9,6 +10,8 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
+import { Box } from '@mui/system';
+import Modal from '@mui/material/Modal';
 
 const products = [
   {
@@ -31,24 +34,44 @@ const products = [
   }
 ]
 
-const update = (_id: string) => {
-  Router.push({
-    pathname: '/update',
-    query: { _id: _id },
-}) 
-}
-
-const register = () => {
-  Router.push('register');
-}
-
 const Home: NextPage = () => {
+  const [open, setOpen] = useState(false);
+  const handleClose = () => setOpen(false);
+
+  const style = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 400,
+    bgcolor: 'background.paper',
+    border: '2px solid #000',
+    boxShadow: 24,
+    p: 4,
+  };
+
+  const register = () => {
+    Router.push('register');
+  }
+
+  const update = (_id: string) => {
+    Router.push({
+      pathname: '/update',
+      query: { _id: _id }
+    })
+  }
+
+  const remove = (_id: string) => {
+    setOpen(true);
+
+  }
+
   return (
     <>
       <Head>
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
       </Head>
-      <Button onClick={(e) => register()} variant="contained">Novo Produto</Button>
+      <Button onClick={(e) => register()} variant="contained" size="large">Novo Produto</Button>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
           <TableHead>
@@ -64,21 +87,40 @@ const Home: NextPage = () => {
             {products.map((product) => (
               <TableRow
                 key={product._id}
-                
+
               >
                 <TableCell component="th" scope="row">
                   {product.name}
                 </TableCell>
-                <TableCell align="right">{product.price}</TableCell>
+                <TableCell align="right">R${product.price.toFixed(2).replace('.', ',')}</TableCell>
                 <TableCell align="right">{product.stock}</TableCell>
-                
-                <TableCell width="10" align="right"><Button onClick={(e) => update(product._id)} variant="contained">Update</Button></TableCell>
-                <TableCell width="10" align="right"><Button variant="contained" color="warning">Delete</Button></TableCell>
+
+                <TableCell width="100" align="right"><Button onClick={(e) => update(product._id)}
+                  variant="contained" size="large">Update</Button></TableCell>
+                <TableCell width="100" align="right"><Button onClick={(e) => remove(product._id)}
+                  variant="contained" color="warning"
+                  size="large">Delete</Button></TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
       </TableContainer>
+
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+            Text in a modal
+          </Typography>
+          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
+          </Typography>
+        </Box>
+      </Modal>
     </>
   )
 }
