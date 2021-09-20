@@ -22,15 +22,13 @@ const products = [
 ]
 
 const Home: NextPage = () => {
-  const m = products.map((product) => {
-    <div><p>product.name</p></div>
-
-  })
-
   return (
     <>
-      asdfgh
-      {m}
+      {products.map((product) => (
+        <div><p>{product.name}</p>
+          <p>{product.price}</p>
+          <p>{product.stock}</p></div>
+      ))}
     </>
   )
 }
