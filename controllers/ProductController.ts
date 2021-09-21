@@ -13,7 +13,7 @@ interface Product {
 
 class ProductController {
 
-  async findProducts(): Promise<Product[]> {
+  async find(): Promise<Product[]> {
     try {
       let response = await api.get("find");
       return response.data.sort((a: Product, b: Product) => a.name.toLowerCase() < b.name.toLowerCase() ? -1 : 1);
@@ -22,7 +22,7 @@ class ProductController {
     }  
   }
 
-  async createProduct(product: Product): Promise<Product> {
+  async create(product: Product): Promise<Product> {
     try {
       let response = await api.post("save", { product });
       return response.data;
@@ -31,7 +31,7 @@ class ProductController {
     }  
   }
 
-  async updateProduct(product: Product): Promise<Product> {
+  async update(product: Product): Promise<Product> {
     try {
       let response = await api.post("update", { product });
       return response.data;
@@ -40,7 +40,7 @@ class ProductController {
     }  
   }
 
-  async deleteProduct(_id: string): Promise<void> {
+  async remove(_id: string): Promise<void> {
     try {
       let response = await api.post("remove", { _id });
       return response.data;

@@ -13,6 +13,7 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
+import ProductController from '../controllers/ProductController';
 
 const products = [
   {
@@ -35,21 +36,21 @@ const products = [
   }
 ]
 
+const style: any = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 400,
+  bgcolor: 'background.paper',
+  border: '2px solid #000',
+  boxShadow: 24,
+  p: 4,
+};
+
 const Home: NextPage = () => {
   const [open, setOpen] = useState(false);
-  const handleClose = () => setOpen(false);
-
-  const style = {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: 400,
-    bgcolor: 'background.paper',
-    border: '2px solid #000',
-    boxShadow: 24,
-    p: 4,
-  };
+  const [_idProduct, set_IdProduct] = useState('');
 
   const register = () => {
     Router.push('register');
@@ -63,8 +64,8 @@ const Home: NextPage = () => {
   }
 
   const remove = (_id: string) => {
+    set_IdProduct(_id);
     setOpen(true);
-
   }
 
   return (
@@ -109,17 +110,17 @@ const Home: NextPage = () => {
 
       <Modal
         open={open}
-        onClose={handleClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <Typography id="modal-modal-title" variant="h6" component="h2">
-            Text in a modal
-          </Typography>
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-          </Typography>
+          <h2>Tem certeza de que quer remover este produto?</h2>
+          <div className="right">
+            <Button onClick={(e) => ProductController.remove(_idProduct)}
+              variant="contained" size="large">Confirm</Button>
+            <Button onClick={(e) => setOpen(false)}
+              variant="contained" size="large" color="warning">Cancel</Button>
+          </div>
         </Box>
       </Modal>
     </>
