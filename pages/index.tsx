@@ -52,13 +52,13 @@ const Home: NextPage = () => {
     confirmAlert({
       customUI: ({ onClose }) => {
         return (
-          <div>
+          <div className="modal">
             <p>Tem certeza de que deseja remover este produto?</p>
             <div className="modalButtons">
               <Button onClick={() => {
                 onClose();
-              }} variant="contained">Sim</Button>
-              <Button onClick={onClose} variant="contained" color="warning">Não</Button>
+              }} variant="contained" className="modalButton">Confirmar</Button>
+              <Button onClick={onClose} variant="contained" color="warning">Cancelar</Button>
             </div>
           </div>
         );
