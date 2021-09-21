@@ -1,6 +1,3 @@
-.right {
-  position: absolute;
-  right: 0px;
-  width: 25%;
-  border: 3px solid #73AD21;
+* {
+  font-size: x-large;
 }

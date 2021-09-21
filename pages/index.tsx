@@ -72,12 +72,12 @@ const Home: NextPage = () => {
       </Head>
       <Button onClick={(e) => register()} variant="contained" size="large">Novo Produto</Button>
       <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
+        <Table sx={{ minWidth: 650 }} size="small">
           <TableHead>
             <TableRow>
-              <TableCell>Name</TableCell>
-              <TableCell align="right">Price</TableCell>
-              <TableCell align="right">Stock</TableCell>
+              <TableCell>Nome</TableCell>
+              <TableCell align="right">Preço</TableCell>
+              <TableCell align="right">Estoque</TableCell>
               <TableCell align="right"></TableCell>
               <TableCell align="right"></TableCell>
             </TableRow>
@@ -95,10 +95,10 @@ const Home: NextPage = () => {
                 <TableCell align="right">{product.stock}</TableCell>
 
                 <TableCell width="100" align="right"><Button onClick={() => update(product._id)}
-                  variant="contained" size="large">Update</Button></TableCell>
+                  variant="contained" size="large">Atualizar</Button></TableCell>
                 <TableCell width="100" align="right"><Button onClick={() => remove(product._id)}
                   variant="contained" color="warning"
-                  size="large">Delete</Button></TableCell>
+                  size="large">Remover</Button></TableCell>
               </TableRow>
             ))}
           </TableBody>
