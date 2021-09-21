@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import type { NextPage } from 'next';
 import Router from 'next/router';
-import Head from 'next/head';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -10,7 +9,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
-import { confirmAlert } from 'react-confirm-alert'; 
+import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css';
 
 import ProductController from '../controllers/ProductController';
@@ -51,26 +50,25 @@ const Home: NextPage = () => {
 
   const remove = (_id: string) => {
     confirmAlert({
-      title: 'Tem certeza de que deseja remover este produto?',
-      buttons: [
-        {
-          label: 'Sim',
-          onClick: () => alert('Click Yes' + _id)
-        },
-        {
-          label: 'Não',
-          onClick: () => close()
-        }
-      ]
+      customUI: ({ onClose }) => {
+        return (
+          <div>
+            <p>Tem certeza de que deseja remover este produto?</p>
+            <div className="modalButtons">
+              <Button onClick={() => {
+                onClose();
+              }} variant="contained">Sim</Button>
+              <Button onClick={onClose} variant="contained" color="warning">Não</Button>
+            </div>
+          </div>
+        );
+      }
     });
   }
 
   return (
     <>
-      <Head>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
-      </Head>
-      <Button onClick={(e) => register()} variant="contained" size="large">Novo Produto</Button>
+      <Button onClick={() => register()} variant="contained">Novo Produto</Button>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} size="small">
           <TableHead>
@@ -84,10 +82,7 @@ const Home: NextPage = () => {
           </TableHead>
           <TableBody>
             {products.map((product) => (
-              <TableRow
-                key={product._id}
-
-              >
+              <TableRow key={product._id}>
                 <TableCell component="th" scope="row">
                   {product.name}
                 </TableCell>
@@ -95,15 +90,14 @@ const Home: NextPage = () => {
                 <TableCell align="right">{product.stock}</TableCell>
 
                 <TableCell width="100" align="right"><Button onClick={() => update(product._id)}
-                  variant="contained" size="large">Atualizar</Button></TableCell>
+                  variant="contained">Atualizar</Button></TableCell>
                 <TableCell width="100" align="right"><Button onClick={() => remove(product._id)}
-                  variant="contained" color="warning"
-                  size="large">Remover</Button></TableCell>
+                  variant="contained" color="warning">Remover</Button></TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
-      </TableContainer>      
+      </TableContainer>
     </>
   )
 }
