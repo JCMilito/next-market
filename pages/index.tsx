@@ -9,10 +9,10 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
-import Modal from '@mui/material/Modal';
+import { confirmAlert } from 'react-confirm-alert'; 
+import 'react-confirm-alert/src/react-confirm-alert.css';
+
 import ProductController from '../controllers/ProductController';
 
 const products = [
@@ -36,21 +36,7 @@ const products = [
   }
 ]
 
-const style: any = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: 400,
-  bgcolor: 'background.paper',
-  border: '2px solid #000',
-  boxShadow: 24,
-  p: 4,
-};
-
 const Home: NextPage = () => {
-  const [open, setOpen] = useState(false);
-  const [_idProduct, set_IdProduct] = useState('');
 
   const register = () => {
     Router.push('register');
@@ -64,8 +50,19 @@ const Home: NextPage = () => {
   }
 
   const remove = (_id: string) => {
-    set_IdProduct(_id);
-    setOpen(true);
+    confirmAlert({
+      title: 'Tem certeza de que deseja remover este produto?',
+      buttons: [
+        {
+          label: 'Sim',
+          onClick: () => alert('Click Yes' + _id)
+        },
+        {
+          label: 'Não',
+          onClick: () => close()
+        }
+      ]
+    });
   }
 
   return (
@@ -97,32 +94,16 @@ const Home: NextPage = () => {
                 <TableCell align="right">R${product.price.toFixed(2).replace('.', ',')}</TableCell>
                 <TableCell align="right">{product.stock}</TableCell>
 
-                <TableCell width="100" align="right"><Button onClick={(e) => update(product._id)}
+                <TableCell width="100" align="right"><Button onClick={() => update(product._id)}
                   variant="contained" size="large">Update</Button></TableCell>
-                <TableCell width="100" align="right"><Button onClick={(e) => remove(product._id)}
+                <TableCell width="100" align="right"><Button onClick={() => remove(product._id)}
                   variant="contained" color="warning"
                   size="large">Delete</Button></TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
-      </TableContainer>
-
-      <Modal
-        open={open}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Box sx={style}>
-          <h2>Tem certeza de que quer remover este produto?</h2>
-          <div className="right">
-            <Button onClick={(e) => ProductController.remove(_idProduct)}
-              variant="contained" size="large">Confirm</Button>
-            <Button onClick={(e) => setOpen(false)}
-              variant="contained" size="large" color="warning">Cancel</Button>
-          </div>
-        </Box>
-      </Modal>
+      </TableContainer>      
     </>
   )
 }
