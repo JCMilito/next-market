@@ -13,7 +13,7 @@ interface Product {
 
 class ProductController {
 
-  async find(): Promise<Product[]> {
+  async list(): Promise<Product[]> {
     try {
       let response = await api.get("find");
       return response.data.sort((a: Product, b: Product) => a.name.toLowerCase() < b.name.toLowerCase() ? -1 : 1);
@@ -21,6 +21,17 @@ class ProductController {
       throw error;
     }  
   }
+
+  async find(_id: string): Promise<Product> {
+    try {
+      let response = await api.get("find");
+      return response.data;
+    } catch (error) {
+      throw error;
+    }  
+  }
+
+
 
   async create(product: Product): Promise<Product> {
     try {
