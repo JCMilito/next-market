@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import type { NextPage } from 'next';
-import Router from 'next/router';
+import { useRouter } from 'next/router';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -36,13 +36,14 @@ const products = [
 ]
 
 const Home: NextPage = () => {
+  const router = useRouter();
 
   const register = () => {
-    Router.push('register');
+    router.push('register');
   }
 
   const update = (_id: string) => {
-    Router.push({
+    router.push({
       pathname: '/update',
       query: { _id: _id }
     })
@@ -73,25 +74,20 @@ const Home: NextPage = () => {
         <Table sx={{ minWidth: 650 }} size="small">
           <TableHead>
             <TableRow>
-              <TableCell>Nome</TableCell>
-              <TableCell align="right">Preço</TableCell>
-              <TableCell align="right">Estoque</TableCell>
-              <TableCell align="right"></TableCell>
-              <TableCell align="right"></TableCell>
+              <TableCell><b>Nome</b></TableCell>
+              <TableCell><b>Preço</b></TableCell>
+              <TableCell><b>Estoque</b></TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {products.map((product) => (
-              <TableRow key={product._id}>
-                <TableCell component="th" scope="row">
-                  {product.name}
-                </TableCell>
-                <TableCell align="right">R${product.price.toFixed(2).replace('.', ',')}</TableCell>
-                <TableCell align="right">{product.stock}</TableCell>
-
-                <TableCell width="100" align="right"><Button onClick={() => update(product._id)}
+            {products.map((product, index) => (
+              <TableRow key={index}>
+                <TableCell>{product.name}</TableCell>
+                <TableCell width="200">R${product.price.toFixed(2).replace('.', ',')}</TableCell>
+                <TableCell width="100">{product.stock}</TableCell>
+                <TableCell width="100"><Button onClick={() => update(product._id)}
                   variant="contained">Atualizar</Button></TableCell>
-                <TableCell width="100" align="right"><Button onClick={() => remove(product._id)}
+                <TableCell width="100"><Button onClick={() => remove(product._id)}
                   variant="contained" color="warning">Remover</Button></TableCell>
               </TableRow>
             ))}
