@@ -12,7 +12,7 @@ import Button from '@mui/material/Button';
 import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css';
 
-import ProductController from '../controllers/ProductController';
+import ProductController from '../controllers/ProductController'
 
 const products = [
   {
