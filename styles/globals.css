@@ -8,13 +8,20 @@
   padding: 20px;
 }
 
-.modalButtons {
+.confirmButtons {
   display: block;
   margin-left: auto;
   margin-right: auto;
   width: 70%;
 }
 
-.modalButton {
+.marginButton {
   margin: 10px;
+}
+
+.input {
+  width: 90%;
+  height: 48px;
+  margin: 4px;
+  border-radius: 8px;
 }

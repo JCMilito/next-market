@@ -12,7 +12,7 @@ import Button from '@mui/material/Button';
 import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css';
 
-import ProductController from '../controllers/ProductController'
+import ProductController from '../controllers/ProductController';
 
 const products = [
   {
@@ -55,10 +55,10 @@ const Home: NextPage = () => {
         return (
           <div className="modal">
             <p>Tem certeza de que deseja remover este produto?</p>
-            <div className="modalButtons">
+            <div className="confirmButtons">
               <Button onClick={() => {
                 onClose();
-              }} variant="contained" className="modalButton">Confirmar</Button>
+              }} variant="contained" className="marginButton">Confirmar</Button>
               <Button onClick={onClose} variant="contained" color="warning">Cancelar</Button>
             </div>
           </div>
