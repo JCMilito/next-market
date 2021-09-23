@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import type { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import Table from '@mui/material/Table';
@@ -13,29 +13,17 @@ import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css';
 
 import ProductController from '../controllers/ProductController';
-
-const products = [
-  {
-    "_id": '1',
-    "name": 'Máscara',
-    "price": 0.1,
-    "stock": 1000
-  },
-  {
-    "_id": '2',
-    "name": 'Vick',
-    "price": 30,
-    "stock": 100
-  },
-  {
-    "_id": '3',
-    "name": 'Dorflex',
-    "price": 20,
-    "stock": 500
-  }
-]
+import { Product }  from '../controllers/ProductController';
 
 const Home: NextPage = () => {
+  const [products, setProducts] = useState<Product[]>([]);
+  useEffect(() => {
+    async function fetchProducts() {
+      const products = await ProductController.list();
+      setProducts(products.sort((a: Product, b: Product) => a.name.toLowerCase() < b.name.toLowerCase() ? -1 : 1));
+    }    
+    fetchProducts();
+  }, [products]);
   const router = useRouter();
 
   const register = () => {
@@ -49,7 +37,7 @@ const Home: NextPage = () => {
     })
   }
 
-  const remove = (_id: string) => {
+  const remove = (_id: string, index: number) => {
     confirmAlert({
       customUI: ({ onClose }) => {
         return (
@@ -57,6 +45,7 @@ const Home: NextPage = () => {
             <p>Tem certeza de que deseja remover este produto?</p>
             <div className="confirmButtons">
               <Button onClick={() => {
+                ProductController.remove(_id);
                 onClose();
               }} variant="contained" className="marginButton">Confirmar</Button>
               <Button onClick={onClose} variant="contained" color="warning">Cancelar</Button>
@@ -85,9 +74,9 @@ const Home: NextPage = () => {
                 <TableCell>{product.name}</TableCell>
                 <TableCell width="200">R${product.price.toFixed(2).replace('.', ',')}</TableCell>
                 <TableCell width="100">{product.stock}</TableCell>
-                <TableCell width="100"><Button onClick={() => update(product._id)}
+                <TableCell width="100"><Button onClick={() => update(product._id!)}
                   variant="contained">Atualizar</Button></TableCell>
-                <TableCell width="100"><Button onClick={() => remove(product._id)}
+                <TableCell width="100"><Button onClick={() => remove(product._id!, index)}
                   variant="contained" color="warning">Remover</Button></TableCell>
               </TableRow>
             ))}

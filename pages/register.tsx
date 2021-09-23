@@ -15,14 +15,14 @@ const Register: NextPage = () => {
   const [stock, setStock] = useState("");
   const router = useRouter();
 
-  let schema = yup.object().shape({
+  const schema = yup.object().shape({
     name: yup.string().required("Por favor, digite o nome"),
     price: yup.number().typeError("Preço inválido").positive("Preço inválido"),
-    stock: yup.number().typeError("Estoque inválido").positive("Estoque inválido").integer("Preço inválido")    
+    stock: yup.number().typeError("Estoque inválido").positive("Estoque inválido").integer("Estoque inválido")    
   });
 
-
   const handleSubmit = () => {  
+    setPrice(price.replace(',', '.'));
     const product = { name, price, stock };
     schema.validate(product).then(() => {
       ProductController.create({name, price: parseFloat(price), stock:parseInt(stock)});

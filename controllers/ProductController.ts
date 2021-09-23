@@ -4,7 +4,7 @@ const api = axios.create({
   baseURL: "http://localhost:3001/product/",
 });
 
-interface Product { 
+export interface Product { 
     _id?: string;
     name: string;
     price: number;
@@ -16,7 +16,7 @@ class ProductController {
   async list(): Promise<Product[]> {
     try {
       let response = await api.get("find");
-      return response.data.sort((a: Product, b: Product) => a.name.toLowerCase() < b.name.toLowerCase() ? -1 : 1);
+      return response.data;
     } catch (error) {
       throw error;
     }  
