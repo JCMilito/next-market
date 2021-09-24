@@ -22,10 +22,9 @@ const Register: NextPage = () => {
   });
 
   const handleSubmit = () => {  
-    setPrice(price.replace(',', '.'));
-    const product = { name, price, stock };
-    schema.validate(product).then(() => {
-      ProductController.create({name, price: parseFloat(price), stock:parseInt(stock)});
+    const product = { name, price: price.replace(',', '.'), stock };
+    schema.validate(product).then(async () => {
+      await ProductController.create({name, price: parseFloat(price.replace(',', '.')), stock:parseInt(stock)});
       toast.success("Produto cadastrado");
       setName('');
       setPrice('');
@@ -35,6 +34,10 @@ const Register: NextPage = () => {
     });    
   }
 
+  const validateProduct = () => {
+    
+  }
+ 
   return (
     <>
       <div>

@@ -6,7 +6,7 @@ const Update: NextPage = () => {
 
   return (
     <>
-      {router.query._id}
+      
     </>
   )
 }

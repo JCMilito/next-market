@@ -18,11 +18,11 @@ import { Product }  from '../controllers/ProductController';
 const Home: NextPage = () => {
   const [products, setProducts] = useState<Product[]>([]);
   useEffect(() => {
-    async function fetchProducts() {
+    async function unsubscribe() {
       const products = await ProductController.list();
       setProducts(products.sort((a: Product, b: Product) => a.name.toLowerCase() < b.name.toLowerCase() ? -1 : 1));
     }    
-    fetchProducts();
+    unsubscribe();
   }, [products]);
   const router = useRouter();
 
