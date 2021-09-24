@@ -5,7 +5,7 @@ import { Button } from '@mui/material';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import * as yup from 'yup';
-
+  
 import Input from '../components/Input';
 import ProductController from '../controllers/ProductController';
 
